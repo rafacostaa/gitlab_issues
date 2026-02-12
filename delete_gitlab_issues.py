@@ -14,6 +14,8 @@ from typing import List, Optional
 class GitLabIssueDeleter:
     """Class to handle GitLab issue deletion operations."""
     
+    DEFAULT_TIMEOUT = 30  # seconds
+    
     def __init__(self, gitlab_url: str, private_token: str):
         """
         Initialize the GitLab Issue Deleter.
@@ -48,7 +50,7 @@ class GitLabIssueDeleter:
         while True:
             params['page'] = page
             try:
-                response = requests.get(url, headers=self.headers, params=params, timeout=30)
+                response = requests.get(url, headers=self.headers, params=params, timeout=self.DEFAULT_TIMEOUT)
             except requests.exceptions.RequestException as e:
                 print(f"Error connecting to GitLab while fetching page {page} for project {project_id}: {e}")
                 break
@@ -79,7 +81,7 @@ class GitLabIssueDeleter:
         """
         url = f"{self.api_base}/projects/{project_id}/issues/{issue_iid}"
         try:
-            response = requests.delete(url, headers=self.headers, timeout=30)
+            response = requests.delete(url, headers=self.headers, timeout=self.DEFAULT_TIMEOUT)
         except requests.exceptions.RequestException as e:
             print(f"Error connecting to GitLab while deleting issue #{issue_iid}: {e}")
             return False
