@@ -1,0 +1,19 @@
+# GitLab Issues Deletion Configuration Example
+# Copy this file to config.ini and fill in your values
+# Note: config.ini is gitignored for security
+
+[gitlab]
+# Your GitLab instance URL
+url = https://gitlab.com
+
+# Your GitLab personal access token
+# Generate one at: https://gitlab.com/-/profile/personal_access_tokens
+# Required scopes: api
+token = YOUR_GITLAB_TOKEN_HERE
+
+# Project ID or URL-encoded project path
+# Example: 12345 or namespace%2Fproject-name
+project_id = YOUR_PROJECT_ID_HERE
+
+# State of issues to delete: opened, closed, or all
+state = opened
