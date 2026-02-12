@@ -47,7 +47,11 @@ class GitLabIssueDeleter:
         
         while True:
             params['page'] = page
-            response = requests.get(url, headers=self.headers, params=params)
+            try:
+                response = requests.get(url, headers=self.headers, params=params, timeout=30)
+            except requests.exceptions.RequestException as e:
+                print(f"Error connecting to GitLab: {e}")
+                break
             
             if response.status_code != 200:
                 print(f"Error fetching issues: {response.status_code} - {response.text}")
@@ -74,7 +78,11 @@ class GitLabIssueDeleter:
             True if deletion was successful, False otherwise
         """
         url = f"{self.api_base}/projects/{project_id}/issues/{issue_iid}"
-        response = requests.delete(url, headers=self.headers)
+        try:
+            response = requests.delete(url, headers=self.headers, timeout=30)
+        except requests.exceptions.RequestException as e:
+            print(f"Error connecting to GitLab: {e}")
+            return False
         
         if response.status_code == 204:
             return True
