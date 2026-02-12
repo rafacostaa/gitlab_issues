@@ -50,7 +50,7 @@ class GitLabIssueDeleter:
             try:
                 response = requests.get(url, headers=self.headers, params=params, timeout=30)
             except requests.exceptions.RequestException as e:
-                print(f"Error connecting to GitLab: {e}")
+                print(f"Error connecting to GitLab while fetching page {page} for project {project_id}: {e}")
                 break
             
             if response.status_code != 200:
@@ -81,7 +81,7 @@ class GitLabIssueDeleter:
         try:
             response = requests.delete(url, headers=self.headers, timeout=30)
         except requests.exceptions.RequestException as e:
-            print(f"Error connecting to GitLab: {e}")
+            print(f"Error connecting to GitLab while deleting issue #{issue_iid}: {e}")
             return False
         
         if response.status_code == 204:
